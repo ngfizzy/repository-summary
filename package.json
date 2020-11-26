@@ -21,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start:ssr": "node server/index.js"
+    "start:ssr": "yarn build && node server/index.js"
   },
   "eslintConfig": {
     "extends": [
