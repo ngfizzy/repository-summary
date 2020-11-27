@@ -19,13 +19,21 @@ function App() {
 
 
   return (
-    <div className="App">
+    <>
+
+
+      <div className="App">
+      <header className="MainHeader Background-White">
+        <h1>RepoSnapshot</h1>
+      </header>
       <SearchSection 
           getRepoDetails={getRepoDetails}
           clearSelection={clearSelection}
         />
       <RepoDetailsSection repo={repo}/>
     </div>
+    </>
+
   );
 }
 

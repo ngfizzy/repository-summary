@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import '../App.css';
 import './SearchSection.css'
 
 function findRepo(searchTerm) {
@@ -33,7 +34,7 @@ export default function SearchSection({ getRepoDetails, clearSelection }) {
         setSubmitted(true);
     }
 
-    return <section className="SearchSection Background-White"> 
+    return <section className="Section SearchSection Background-White"> 
             <form onSubmit={e => perfSubmit(e)}>
                 <input
                     value={searchTerm}
@@ -47,12 +48,14 @@ export default function SearchSection({ getRepoDetails, clearSelection }) {
             </form>
 
             <div className="SearchResult">
+                {repos?.length ? <h3> Please Select One Of The Repos</h3> : null}
                 <ul>
                  {repos.map(repo => 
                     <li 
+                        className="SearchResultItem"
                         key={repo.id}
                         onClick={() => getRepoDetails(repo)}>
-                        {repo.name}
+                        {`${repo.owner.login}/${repo.name}`}
                     </li>)}
                 </ul>
             </div>

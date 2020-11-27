@@ -46,7 +46,7 @@ export function RepoDetailsSection({ repo }) {
 
 
     return (
-        <section style={{padding: '1rem'}}>
+        <section  className="Section Background-White">
             { repo ? summary : cta }
         </section>)
 }
