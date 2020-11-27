@@ -13,7 +13,6 @@ export default function SearchSection({ getRepoDetails }) {
         .then(res => res.json());
 
         setRepos(result.items.splice(0, 10));
-        
     }
 
     useEffect(() => {
@@ -44,7 +43,12 @@ export default function SearchSection({ getRepoDetails }) {
 
             <div className="SearchResult">
                 <ul>
-                 {repos.map(repo => <li key={repo.id} onClick={() => getRepoDetails(repo)}>{repo.name}</li>)}
+                 {repos.map(repo => 
+                    <li 
+                        key={repo.id}
+                        onClick={() => getRepoDetails(repo)}>
+                        {repo.name}
+                    </li>)}
                 </ul>
             </div>
     </section>
