@@ -1,41 +1,46 @@
 import React, { useState, useEffect } from 'react';
 
+import '../App.css';
 import './SearchSection.css'
 
-export default function SearchSection({ getRepoDetails }) {
+function findRepo(searchTerm) {
+    return fetch(`https://api.github.com/search/repositories?q=${searchTerm}`)
+     .then(res => res.json());
+ }
+
+
+export default function SearchSection({ getRepoDetails, clearSelection }) {
 
     const [submitted, setSubmitted ] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [repos, setRepos] = useState([]);
 
-    async function findRepo() {
-       const result = await fetch(`https://api.github.com/search/repositories?q=${searchTerm}`)
-        .then(res => res.json());
-
-        setRepos(result.items.splice(0, 10));
-        
-    }
 
     useEffect(() => {
         if(submitted) {
-            findRepo();
+            findRepo(searchTerm)
+                .then(
+                    result => setRepos(result.items.splice(0, 10))
+                );
+
         } else {
             setRepos(() => [])
         }
 
-    }, [submitted])
+    }, [submitted, searchTerm])
 
     function perfSubmit(event) {
         event.preventDefault();
         setSubmitted(true);
     }
 
-    return <section className="SearchSection Background-White"> 
+    return <section className="Section SearchSection Background-White"> 
             <form onSubmit={e => perfSubmit(e)}>
                 <input
                     value={searchTerm}
                     placeholder="Search Repository"
                     onChange={e => {setSearchTerm(e.target.value); setSubmitted(false)}}
+                    onKeyUp={e => clearSelection(e)}
                 />
                 <button  type="submit" className="Search">
                     Search
@@ -43,8 +48,15 @@ export default function SearchSection({ getRepoDetails }) {
             </form>
 
             <div className="SearchResult">
+                {repos?.length ? <h3> Please Select One Of The Repos</h3> : null}
                 <ul>
-                 {repos.map(repo => <li key={repo.id} onClick={() => getRepoDetails(repo)}>{repo.name}</li>)}
+                 {repos.map(repo => 
+                    <li 
+                        className="SearchResultItem"
+                        key={repo.id}
+                        onClick={() => getRepoDetails(repo)}>
+                        {`${repo.owner.login}/${repo.name}`}
+                    </li>)}
                 </ul>
             </div>
     </section>
